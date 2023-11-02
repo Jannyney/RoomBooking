@@ -1,12 +1,10 @@
 <script>
     import Hero from "$lib/Hero.svelte";
-    import ShowBlog from "$lib/ShowBlog.svelte";
-    import PopularBlog from "$lib/Room.svelte";
-    import Stat from "$lib/Stat.svelte";
+    import Room from "$lib/Room.svelte";
 </script>
 
 
 <Hero/>
-<PopularBlog/>
+<Room/>
 
 

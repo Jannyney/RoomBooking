@@ -3,12 +3,32 @@
     import { onMount } from 'svelte';
     import {logged_in} from "$lib/store";
     import { goto } from "$app/navigation";
+    import {book_info} from "$lib/store";
 	export let data: PageData;
     onMount(()=> {
         if (!$logged_in){
             goto("/SignIn");
         }
     })
+    let day = 1;
+    let month = "January";
+    let year = 2023;
+    let start_time = "8:00";
+    let end_time = "9:00";
+    const times = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    function save_info(){
+        book_info.set({
+            day : day,
+            month: month,
+            year: year,
+            start_time: start_time,
+            end_time: end_time
+        })
+         goto("/Confirm")
+    }
+
 </script>
         <p class="text-neutral text-5xl font-bold pb-10 text-center">Reservation</p>
 <div class="flex flex-col">
@@ -17,38 +37,43 @@
         <div>
             <h1 class="font-bold text-2xl text-center py-10">{data?.post.title}</h1>
             </div>
+
         <div class="mb-6 flex justify-center">
-        <div class="dropdown">
-          <label tabindex="0" class="btn m-1">Select Start Time</label>
-              <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>8:00</a></li>
-                <li><a>9:00</a></li>
-                  <li><a>10:00</a></li>
-                <li><a>11:00</a></li>
-                   <li><a>12:00</a></li>
-                <li><a>13:00</a></li>
-                   <li><a>14:00</a></li>
-                <li><a>15:00</a></li>
-                   <li><a>16:00</a></li>
-              </ul>
+            Select date
+            <select bind:value={day} class="select select-bordered  max-w-xs">
+                {#each [...Array(31).keys()] as day}
+              <option>{day+1}</option>
+                {/each}
+            </select>
+
+            <select bind:value={month} class="select select-bordered  max-w-xs">
+              {#each months as month}
+              <option>{month}</option>
+                {/each}
+            </select>
+
+             <select bind:value={year} class="select select-bordered  max-w-xs">
+              <option>2023</option>
+            </select>
         </div>
 
-                <div class="dropdown">
-          <label tabindex="0" class="btn m-1">Select End Time</label>
-          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><a>9:00</a></li>
-              <li><a>10:00</a></li>
-            <li><a>11:00</a></li>
-               <li><a>12:00</a></li>
-            <li><a>13:00</a></li>
-               <li><a>14:00</a></li>
-            <li><a>15:00</a></li>
-               <li><a>17:00</a></li>
-          </ul>
-        </div>
+
+        <div class="mb-6 flex justify-center">
+            Select Time
+            <select bind:value={start_time} class="select select-bordered  max-w-xs">
+                {#each times as time}
+              <option>{time}</option>
+                {/each}
+            </select>
+
+            <select bind:value={end_time} class="select select-bordered  max-w-xs">
+              {#each times as time}
+              <option>{time}</option>
+                {/each}
+            </select>
         </div>
        <div class="card-actions justify-center">
-              <a href="/Confirm" class="btn btn-primary">Book Now</a>
+              <button on:click={save_info} class="btn btn-primary">Book Now</button>
        </div>
         {/if}
 </div>

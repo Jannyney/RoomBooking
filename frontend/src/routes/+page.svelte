@@ -5,6 +5,7 @@
 
 
 <Hero/>
+<div id = "room">
 <Room/>
-
+</div>
 

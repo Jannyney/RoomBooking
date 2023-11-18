@@ -31,7 +31,7 @@
           <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/SignIn">Log In</a></li>
             {:else}
 
-            <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/SignUp">{$logged_in.username}</a></li>
+            <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/Profile">{$logged_in.username}</a></li>
             <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/UserBookHistory">History</a></li>
             <li class="justify-center pr-5"><button on:click={()=> {logged_in.set(null)}} class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" >Log Out</button></li>
             {/if}

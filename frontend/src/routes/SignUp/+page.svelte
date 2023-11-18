@@ -4,6 +4,7 @@
   let formData = {
     first_name: '',
     last_name: '',
+    username: '',
     email: '',
     password: '',
   };
@@ -35,6 +36,9 @@
       </div>
       <div class="min-w-min mb-6">
         <input bind:value={formData.last_name} type="text" name="name" id="name" class="bg-gray-50  text-sm rounded-lg  block w-full p-2.5  dark:text-black " placeholder="Last Name:" required>
+      </div>
+      <div class="mb-6">
+        <input bind:value={formData.username} type="text" name="username" id="username" class="bg-gray-50  text-sm rounded-lg  block w-full p-2.5  dark:text-black " placeholder="Username:" required>
       </div>
       <div class="mb-6">
         <input bind:value={formData.email} type="email" name="email" id="email" class="bg-gray-50  text-sm rounded-lg  block w-full p-2.5  dark:text-black " placeholder="Email:" required>

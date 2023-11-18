@@ -1,5 +1,5 @@
 <div class="overflow-x-auto">
-  <table class="table table-xs m-5">
+  <table class="table table-xs">
     <thead>
       <tr>
         <th>No.</th>

@@ -11,7 +11,7 @@
     <div class="flex flex-col md:flex-row flex-wrap items-center md:justify-center">
         {#each projects as project }
         <div class="card card-compact w-96 bg-base-100 shadow-xl mx-20 my-10">
-          <figure><img src="{returnBlog(project)?.post.image}" alt="BlogImg" /></figure>
+          <figure><img class  = "object-cover h-52 w-96" src="{returnBlog(project)?.post.image}" alt="BlogImg" /></figure>
           <div class="card-body">
             <h2 class="card-title">{returnBlog(project)?.post.title}</h2>
            <div class="card-actions justify-end">

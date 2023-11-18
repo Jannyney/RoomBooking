@@ -30,17 +30,17 @@
     }
 
 </script>
-        <p class="text-neutral text-5xl font-bold pb-10 text-center">Reservation</p>
+        <p class="text-neutral text-5xl font-bold pb-5 text-center">Reservation</p>
 <div class="flex flex-col">
     { #if data.post}
         <div><img style="width: 30%; display: block; margin-left: auto; margin-right: auto;" src="{data.post.image}" alt="Room Image"></div>
         <div>
-            <h1 class="font-bold text-2xl text-center py-10">{data?.post.title}</h1>
+            <h1 class="font-bold text-2xl text-center py-5">{data?.post.title}</h1>
             </div>
 
-        <div class="mb-6 flex justify-center">
-            Select date
-            <select bind:value={day} class="select select-bordered  max-w-xs">
+        <div class="mb-6 flex flex-col ">
+            <div class="flex justify-center pb-5">Select date</div>
+            <div class="flex justify-center"><select bind:value={day} class="select select-bordered  max-w-xs">
                 {#each [...Array(31).keys()] as day}
               <option>{day+1}</option>
                 {/each}
@@ -53,14 +53,14 @@
             </select>
 
              <select bind:value={year} class="select select-bordered  max-w-xs">
-              <option>2023</option>
+              <option>{2023}</option>
             </select>
-        </div>
+        </div></div>
 
 
-        <div class="mb-6 flex justify-center">
-            Select Time
-            <select bind:value={start_time} class="select select-bordered  max-w-xs">
+        <div class="mb-6 flex flex-col justify-center">
+           <div class="flex justify-center pb-5">Select Time</div>
+            <div class="flex justify-center"><select bind:value={start_time} class="select select-bordered  max-w-xs">
                 {#each times as time}
               <option>{time}</option>
                 {/each}
@@ -71,8 +71,8 @@
               <option>{time}</option>
                 {/each}
             </select>
-        </div>
-       <div class="card-actions justify-center">
+        </div></div>
+       <div class="card-actions justify-center pb-5">
               <button on:click={save_info} class="btn btn-primary">Book Now</button>
        </div>
         {/if}

@@ -8,15 +8,21 @@
 
     <div class="card w-96 bg-base-100 shadow-xl">
   <div class="card-body">
-    <h2 class="card-title">Booking Information</h2>
-    <p>{$book_info?.day}
+    <h2 class="card-title self-center pb-5">Booking Information</h2>
+    <p>Booking ID: </p>
+    <p>Name: </p>
+    <p>Room: </p>
+    <p>Date: {$book_info?.day}
         {$book_info?.month}
       {$book_info?.year}
-      {$book_info?.start_time}
+      </p>
+    <p>Time:
+      {$book_info?.start_time}-
       {$book_info?.end_time}</p>
-    <div class="card-actions justify-end">
-      <a href="/Cancellation" class="btn btn-secondary">Cancel your booking</a>
-      <a href="/" class="btn btn-secondary">Back to home</a>
+    <div class="card-actions justify-center pt-5">
+       <a href="/" class="btn btn-secondary">Back to home</a>
+      <a href="/Cancellation" class="btn btn-secondary">Cancel booking</a>
+
     </div>
   </div>
 </div>

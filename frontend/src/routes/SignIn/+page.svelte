@@ -32,7 +32,7 @@ async function save() {
     <p class="text-neutral text-5xl font-bold p-20 text-center">Log In</p>
     <form>
       <div class="min-w-min mb-6">
-        <input bind:value={username} type="text" name="name" id="name" class="bg-gray-50  text-sm rounded-lg  block w-full p-2.5  dark:text-black " placeholder="Email: " required>
+        <input bind:value={username} type="text" name="name" id="name" class="bg-gray-50  text-sm rounded-lg  block w-full p-2.5  dark:text-black " placeholder="Username: " required>
       </div>
       <div class="mb-6">
         <input bind:value={password} type="password" name="email" id="email" class="bg-gray-50  text-sm rounded-lg  block w-full p-2.5  dark:text-black " placeholder="Password: "required>

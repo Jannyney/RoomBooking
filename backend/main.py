@@ -64,6 +64,7 @@ def login(user: UserLogin):
     except Exception as e:
         return HTTPException(status_code=500, detail=str(e))
 
+
 @app.get("/showuser")
 def users():
     try:
@@ -106,6 +107,7 @@ def reservations():
     except Exception as e:
         return HTTPException(status_code=500, detail=str(e))
 
+
 # Pydantic model for the room request
 class Room(BaseModel):
     name: str
@@ -140,6 +142,7 @@ def rooms():
         return result
     except Exception as e:
         return HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/")
 async def root():

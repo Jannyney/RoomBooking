@@ -5,15 +5,22 @@
 <div class="background h-3/4 pt-10 pb-52" id="get_in_touch">
   <div id="form" class="pb-10 ">
     <p class="text-neutral text-5xl font-bold p-20 text-center">Successfully Booked</p>
-      {$book_info?.day}
+
+    <div class="card w-96 bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title">Booking Information</h2>
+    <p>{$book_info?.day}
         {$book_info?.month}
       {$book_info?.year}
       {$book_info?.start_time}
-      {$book_info?.end_time}
-            <div class="card-actions justify-center">
-              <a href="/Cancellation" class="btn btn-secondary">Cancel your booking</a>
-                <a href="/" class="btn btn-secondary">Back to home</a>
-       </div>
+      {$book_info?.end_time}</p>
+    <div class="card-actions justify-end">
+      <a href="/Cancellation" class="btn btn-secondary">Cancel your booking</a>
+      <a href="/" class="btn btn-secondary">Back to home</a>
+    </div>
+  </div>
+</div>
+
 
   </div>
 </div>

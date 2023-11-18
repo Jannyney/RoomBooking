@@ -21,18 +21,18 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </label>
       </div>
-      <div class="flex-1 px-2 mx-2 font-bold text-2xl" >Room Booking</div>
+      <div class="flex-1 px-2 mx-2 font-bold text-2xl" ><a href = "/">Room Booking</a></div>
       <div class="flex-none hidden lg:block">
         <ul class="menu menu-horizontal text-base">
           <!-- Navbar menu content here -->
 
-          <li class="justify-center" ><a href="/">Home</a></li>
           {#if !$logged_in}
           <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/SignUp">Sign Up</a></li>
           <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/SignIn">Log In</a></li>
             {:else}
 
             <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/SignUp">{$logged_in.username}</a></li>
+            <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/UserBookHistory">History</a></li>
             <li class="justify-center pr-5"><button on:click={()=> {logged_in.set(null)}} class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" >Log Out</button></li>
             {/if}
           <button data-toggle-theme="night,cupcake" on:click={() => {darkmode =! darkmode}}>

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import {goto} from "$app/navigation";
 
   let formData = {
     first_name: '',
@@ -10,24 +11,25 @@
   };
 
   const handleSubmit = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(formData)
+    };
 
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+    fetch('http://localhost:8000/signup', options)
+      .then(response => {
+        if (response.status === 400) {
+          alert("Username is taken")
+        } else if (response.status === 200) {
+          alert("Signed Up Successfully");
+          goto("/SignIn")
+        }
+      })
+  }
 </script>
 
-<div class="background h-3/4 " id="get_in_touch">
+<div class="background h-3/4 " id="signup">
   <div id="form" class="pb-10">
     <p class="text-neutral text-5xl font-bold p-20 text-center">Sign Up</p>
     <form on:submit|preventDefault={handleSubmit}>

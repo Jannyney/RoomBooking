@@ -33,8 +33,8 @@
 
 
 
-            <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/Profile">{$logged_in.username}</a></li>
              {#if !($logged_in.username==="admin")}
+                <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/Profile">{$logged_in.username}</a></li>
             <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/UserBookHistory">History</a></li>
              {:else}
                 <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/AdminBookHistory">History</a></li>

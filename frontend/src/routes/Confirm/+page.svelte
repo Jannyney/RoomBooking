@@ -1,10 +1,11 @@
 <script lang="ts">
     import {book_info} from "$lib/store";
+    import {logged_in} from "$lib/store";
 </script>
 
-<div class="background h-3/4 pt-10 pb-52" id="get_in_touch">
+<div class="background h-3/4 pt-5 " id="get_in_touch">
   <div id="form" class="pb-10 ">
-    <p class="text-neutral text-5xl font-bold p-20 text-center">Successfully Booked</p>
+    <p class="text-neutral text-5xl font-bold p-10 text-center">Successfully Booked</p>
 
     <div class="card w-96 bg-base-100 shadow-xl">
   <div class="card-body">
@@ -20,8 +21,12 @@
       {$book_info?.start_time}-
       {$book_info?.end_time}</p>
     <div class="card-actions justify-center pt-5">
-       <a href="/" class="btn btn-secondary">Back to home</a>
-      <a href="/Cancellation" class="btn btn-secondary">Cancel booking</a>
+            <a href="/Cancellation" class="btn btn-secondary">Cancel booking</a>
+       {#if ($logged_in?.username==="admin")}
+       <a href="/AdminBookHistory" class="btn btn-secondary">View History</a>
+         {:else }
+ <a href="/UserBookHistory" class="btn btn-secondary">View History</a>
+         {/if}
 
     </div>
   </div>

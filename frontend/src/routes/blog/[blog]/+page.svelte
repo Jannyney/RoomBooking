@@ -30,7 +30,7 @@
     }
 
 </script>
-        <p class="text-neutral text-5xl font-bold pb-5 text-center">Reservation</p>
+        <p class="text-content text-5xl font-bold pb-5 text-center">Reservation</p>
 <div class="flex flex-col">
     { #if data.post}
         <div><img style="width: 30%; display: block; margin-left: auto; margin-right: auto;" src="{data.post.image}" alt="Room Image"></div>
@@ -39,7 +39,16 @@
             </div>
 
         <div class="mb-6 flex flex-col ">
-            <div class="flex justify-center pb-5">Select date</div>
+             {#if ($logged_in?.username==="admin")}
+                  <div class="flex justify-center pb-5">Select Username</div>
+                  <div class="flex justify-center"><select bind:value={day} class="select select-bordered  max-w-xs">
+                {#each [...Array(31).keys()] as day}
+              <option>{day+1}</option>
+                {/each} </select></div>
+
+             {/if}
+
+            <div class="flex justify-center py-5 ">Select date</div>
             <div class="flex justify-center"><select bind:value={day} class="select select-bordered  max-w-xs">
                 {#each [...Array(31).keys()] as day}
               <option>{day+1}</option>

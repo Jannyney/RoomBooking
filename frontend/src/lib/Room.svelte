@@ -16,8 +16,8 @@
             <h2 class="card-title">{returnBlog(project)?.post.title}</h2>
            <div class="card-actions justify-end">
                {#if $logged_in?.role==="admin"}
-                     <a href="/blog/{project}" class="btn btn-primary">Edit</a>
-                   <a href="/blog/{project}" class="btn btn-primary">Delete</a>
+                   <a href="/blog/{project}" class="btn btn-primary">Book</a>
+                     <a href="/blog/{project}/edit" class="btn btn-primary">Edit</a>
                    {:else}
               <a href="/blog/{project}" class="btn btn-primary">Book Now</a>
                    {/if}

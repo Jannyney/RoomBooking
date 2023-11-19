@@ -1,6 +1,8 @@
-<div class="mx-5">
+<div >
+<p class="font-bold text-4xl text-center pt-5 py-16">Booking History</p>
+<div class="mx-32 pb-10">
 <div class="overflow-x-auto">
-  <table class="table table-xs font-bold px-5">
+  <table class="table table-xs  px-5">
     <thead>
       <tr>
         <th>No.</th>
@@ -20,17 +22,17 @@
         <td>19/11/23</td>
         <td>12:00</td>
         <td>13:00</td>
-        <td class="bg-green-400">Pending</td>
+        <td class="bg-green-400 font-bold rounded">Pending</td>
 
       </tr>
 
     </tbody>
 
   </table>
-</div></div>
+</div></div></div>
 
 <style>
     .table td, .table th {
-        font-size: 15px;
+        font-size: 18px;
     }
 </style>

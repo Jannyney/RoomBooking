@@ -1,10 +1,9 @@
+<div class="mx-5">
 <div class="overflow-x-auto">
-  <table class="table table-xs">
+  <table class="table table-xs font-bold px-5">
     <thead>
       <tr>
         <th>No.</th>
-        <th>UserID</th>
-        <th>Room ID</th>
         <th>Room Name</th>
         <th>Date</th>
         <th>Start Time</th>
@@ -16,20 +15,19 @@
     <tbody>
       <tr>
         <th>1</th>
-        <td>Cy Ganderton</td>
-        <td>Quality Control Specialist</td>
-        <td>Littel, Schaden and Vandervort</td>
-        <td>Canada</td>
-        <td>12/16/2020</td>
-        <td>Blue</td>
-        <td>Littel, Schaden and Vandervort</td>
+
+        <td>Co-working</td>
+        <td>19/11/23</td>
+        <td>12:00</td>
+        <td>13:00</td>
+        <td class="bg-green-400">Pending</td>
 
       </tr>
 
     </tbody>
 
   </table>
-</div>
+</div></div>
 
 <style>
     .table td, .table th {

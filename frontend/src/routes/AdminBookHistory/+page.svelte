@@ -1,5 +1,7 @@
+<p class="font-bold text-4xl text-center">Booking History</p>
+<div class="m-5">
 <div class="overflow-x-auto">
-  <table class="table table-xs my-5">
+  <table class="table table-xs my-5 font-bold">
     <thead>
       <tr>
         <th>BookID</th>
@@ -18,21 +20,22 @@
     <tbody>
       <tr>
         <th>1</th>
-        <td>Cy Ganderton</td>
-        <td>Quality Control Specialist</td>
-        <td>Littel, Schaden and Vandervort</td>
-        <td>Canada</td>
+        <td>6422</td>
+        <td>jannyney</td>
+        <td>403</td>
+        <td>Co-working</td>
         <td>12/16/2020</td>
-        <td>Blue</td>
-        <td>Littel, Schaden and Vandervort</td>
-        <td>Canada</td>
-        <td>12/16/2020</td>
+        <td>12:00</td>
+        <td>13:00</td>
+        <td>Pending</td>
+        <td><a>Edit</a></td>
       </tr>
 
     </tbody>
 
   </table>
 </div>
+  </div>
 
 <style>
     .table td, .table th {

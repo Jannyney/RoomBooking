@@ -31,9 +31,17 @@
           <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/SignIn">Log In</a></li>
             {:else}
 
+
+
             <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/Profile">{$logged_in.username}</a></li>
+             {#if !($logged_in.username==="admin")}
             <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/UserBookHistory">History</a></li>
-            <li class="justify-center pr-5"><button on:click={()=> {logged_in.set(null)}} class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" >Log Out</button></li>
+             {:else}
+                <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/AdminBookHistory">History</a></li>
+
+                 {/if}
+             <li class="justify-center pr-5"><button on:click={()=> {logged_in.set(null)}} class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" >Log Out</button></li>
+
             {/if}
           <button data-toggle-theme="night,cupcake" on:click={() => {darkmode =! darkmode}}>
             <!-- this hidden checkbox controls the state -->
@@ -56,8 +64,7 @@
     <ul class="menu p-4 w-80 min-h-full bg-base-200">
       <!-- Sidebar content here -->
       <li><a href="/">Home</a></li>
-      <li><a href="https://jannyney.github.io/Tawanrat.github.io/">About</a></li>
-      <li><a href="/CreateBlog">Create a blog</a></li>
+
       <li><a href="/SignUp">Sign Up</a></li>
       <li><a href="/SignIn">Sign In</a></li>
     </ul>

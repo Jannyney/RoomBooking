@@ -20,14 +20,14 @@ async function save() {
                 })
             }
 
-        ).then(res => res.json()).then(data => logged_in.set(data)).then(() => {
+        ).then(res => res.json()).then(data => {logged_in.set(data); console.log(data)}).then(() => {
             goto("/")
         })
     }
 
 </script>
 
-<div class="background h-3/4 pt-10 pb-52" id="get_in_touch">
+<div class="background h-3/4 pt-10 pb-32" id="get_in_touch">
   <div id="form" class="pb-10 ">
     <p class="text-neutral text-5xl font-bold p-20 text-center">Log In</p>
     <form>

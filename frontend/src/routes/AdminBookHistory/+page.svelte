@@ -14,7 +14,7 @@
         <th>Start Time</th>
         <th>End Time</th>
         <th>Status</th>
-        <th>Edit</th>
+        <th></th>
 
       </tr>
     </thead>
@@ -28,8 +28,14 @@
         <td>12/16/2020</td>
         <td>12:00</td>
         <td>13:00</td>
-        <td class="bg-green-400 rounded">Pending</td>
-        <td class="bg-primary rounded"><a href="">Edit</a></td>
+        <td ><div><select  class="select select-bordered  max-w-xs">
+            <option>Pending</option>
+            <option>Verified</option>
+            <option>Cancelled</option>
+            <option>Successful</option>
+            <option>Warning</option>
+        </select></div></td>
+        <td><button class="btn btn-success">Save</button></td>
       </tr>
 
     </tbody>

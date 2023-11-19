@@ -1,8 +1,15 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
+
+from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
-from typing import Optional
-import mysql.connector
+from starlette.middleware.cors import CORSMiddleware
+from enum import Enum
+
+from auth.routes import authRouter
+from auth.utils import get_current_active_user, get_password_hash
+from auth.models import User
+from db.connector import connection
+import pymysql
 
 app = FastAPI()
 
@@ -15,55 +22,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# MySQL database configuration
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="root",
-    database="Roomie",
-)
-cursor = db.cursor()
-
-class User(BaseModel):
-    FirstName: str
-    LastName: str
-    Email: str
-    Username: str
-    Password: str
-
-@app.post("/signup")
-def signup(user: User):
-    try:
-        # Insert user data into the MySQL database
-        query = "INSERT INTO users (FirstName, LastName, Email, UserName, Password) VALUES (%s, %s, %s, %s, %s)"
-        values = (user.FirstName, user.LastName, user.Email, user.Username, user.Password)
-        cursor.execute(query, values)
-        db.commit()
-        return {"message": "User signed up successfully"}
-    except Exception as e:
-        return HTTPException(status_code=500, detail=str(e))
+app.include_router(authRouter)
 
 
-# Pydantic model for the login request
 class UserLogin(BaseModel):
-    Username: str
-    Password: str
+    username: str
+    password: str
 
-@app.post("/login")
-def login(user: UserLogin):
-    try:
-        # Check if the user exists in the MySQL database
-        query = "SELECT * FROM users WHERE Username = %s AND Password = %s"
-        values = (user.Username, user.Password)
-        cursor.execute(query, values)
-        result = cursor.fetchall()
-        if len(result) == 0:
-            return HTTPException(status_code=401, detail="Invalid credentials")
-        else:
-            return {"message": "User logged in successfully"}
-    except Exception as e:
-        return HTTPException(status_code=500, detail=str(e))
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+# @app.post("/login")
+# async def login(userlogin: UserLogin):
 
 @app.get("/showuser")
 def users():
@@ -123,27 +96,119 @@ class Room(BaseModel):
 @app.post("/room")
 def room(room: Room):
     try:
-        # Insert room data into the MySQL database
-        query = "INSERT INTO rooms (name, capacity, area , projector, tv, whiteboard, video_conference, description) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (room.name, room.capacity, room.area, room.projector, room.tv, room.whiteboard, room.video_conference, room.description)
-        cursor.execute(query, values)
-        db.commit()
-        return {"message": "New Room created successfully"}
-    except Exception as e:
-        return HTTPException(status_code=500, detail=str(e))
-    
-@app.get("/showroom")
-def rooms():
+        with connection.cursor() as cursor:
+            sql = (f"INSERT INTO users (FirstName, LastName, Email, username, password) VALUES "
+                   f"('{signup.first_name}', '{signup.last_name}', '{signup.email}', '{signup.username}', '{get_password_hash(signup.password)}')")
+            print(sql)
+            cursor.execute(sql)
+            connection.commit()
+        return {"success": True}
+    except pymysql.err.IntegrityError as e:
+        connection.rollback()
+        raise HTTPException(status_code=400, detail="Duplicate username")
+
+
+@app.get("/users/all")
+def get_all_users(current_user: User = Depends(get_current_active_user)):
+    with connection.cursor() as cursor:
+        sql = f"SELECT * FROM users"
+        cursor.execute(sql)
+        users = cursor.fetchall()
+        print(users)
+        return users
+
+
+class StatusEnum(Enum):
+    PENDING = "PENDING"
+    VERIFIED = "VERIFIED"
+    SUCCESSFUL = "SUCCESSFUL"
+    WARNING = "WARNING"
+
+
+class BookingForm(BaseModel):
+    roomID: int
+    startTime: datetime
+    endTime: datetime
+
+
+@app.post("/booking")
+def do_booking(form: BookingForm, current_user: User = Depends(get_current_active_user)):
     try:
-        # Get all rooms from the MySQL database
-        query = "SELECT * FROM rooms"
-        cursor.execute(query)
-        result = cursor.fetchall()
-        return result
-    except Exception as e:
-        return HTTPException(status_code=500, detail=str(e))
+        with connection.cursor() as cursor:
+            sql = f"""SELECT * FROM bookings WHERE RoomID = {form.roomID}
+                         AND (('{form.startTime}' < StartTime AND '{form.endTime}' > StartTime)
+                          OR ('{form.startTime}' > StartTime AND '{form.endTime}' < EndTime)
+                          OR ('{form.startTime}' BETWEEN StartTime AND EndTime))
+                          AND status != 'CANCELED';"""
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            print(res)
+            # if this returns that means there is an incompatible time
+            if len(res) != 0:
+                raise HTTPException(status_code=400, detail="Time Not available")
+
+        with connection.cursor() as cursor:
+            sql = (f"INSERT INTO bookings (UserID, RoomID, StartTime, EndTime) VALUES "
+                   f"('{current_user.UserID}', '{form.roomID}', '{form.startTime}', '{form.endTime}')")
+            cursor.execute(sql)
+            connection.commit()
+        return {"success": True}
+    except pymysql.err.OperationalError as e:
+        connection.rollback()
+        print(e)
+        raise HTTPException(status_code=500, detail=f"Something went wrong {e}")
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+class AdminEdit(BaseModel):
+    bookingID: int
+    status: str
+
+
+@app.post("/edit/booking")
+def edit_booking(booking: AdminEdit, current_user: User = Depends(get_current_active_user)):
+    try:
+        if current_user.role == 'admin':
+            with connection.cursor() as cursor:
+                sql = f"UPDATE bookings SET Status = '{booking.status}' WHERE BookingID = {booking.bookingID}"
+                cursor.execute(sql)
+                connection.commit()
+            return {"success": True}
+
+    except pymysql.OperationalError as e:
+        connection.rollback()
+        raise HTTPException(status_code=500, detail=f"Something went Wrong {e}")
+
+
+@app.delete("/booking/{booking_id}")
+def delete_booking(booking_id: int, current_user: User = Depends(get_current_active_user)):
+    try:
+        with connection.cursor() as cursor:
+            sql = f"SELECT * FROM bookings WHERE BookingID= '{booking_id}'"
+            cursor.execute(sql)
+            res = cursor.fetchone()
+        if current_user.role == 'admin' or int(res.get('UserID')) == current_user.UserID:
+            with connection.cursor() as cursor:
+                sql = f"UPDATE bookings SET Status = 'CANCELED' WHERE BookingID = {booking_id}"
+                cursor.execute(sql)
+                sql = f"INSERT INTO cancellations (BookingID) VALUES ({booking_id})"
+                cursor.execute(sql)
+                connection.commit()
+
+    except pymysql.OperationalError as e:
+        connection.rollback()
+        raise HTTPException(status_code=500, detail=f"Something Went Wrong {e}")
+
+
+@app.get("/booking/history")
+def get_booking_history(current_user: User = Depends(get_current_active_user)):
+    if current_user.role == 'admin':
+        sql = "SELECT * FROM bookings"
+    else:
+        sql = f"SELECT * FROM bookings WHERE UserID='{current_user.UserID}'"
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            data = cursor.fetchall()
+        return data
+    except pymysql.OperationalError as e:
+        raise HTTPException(status_code=500, detail=f"Something Went Wrong {e}")

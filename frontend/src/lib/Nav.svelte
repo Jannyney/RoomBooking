@@ -1,4 +1,5 @@
 <script lang="ts">
+import jwt_decode from "jwt-decode";
   import {logged_in} from "$lib/store";
   let darkmode: boolean;
   import {onMount} from 'svelte'
@@ -33,8 +34,8 @@
 
 
 
-             {#if !($logged_in.username==="admin")}
-                <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/Profile">{$logged_in.username}</a></li>
+             {#if !($logged_in.role==="admin")}
+                <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/Profile"> {jwt_decode($logged_in.access_token).sub}</a></li>
             <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/UserBookHistory">History</a></li>
              {:else}
                 <li class="justify-center pr-5"><a class="bg-base-content hover:bg-black-700 text-base-100 font-bold py-2 px-4 rounded" href="/AdminBookHistory">History</a></li>
@@ -64,9 +65,16 @@
     <ul class="menu p-4 w-80 min-h-full bg-base-200">
       <!-- Sidebar content here -->
       <li><a href="/">Home</a></li>
-
+   {#if !$logged_in}
       <li><a href="/SignUp">Sign Up</a></li>
       <li><a href="/SignIn">Sign In</a></li>
+     {:else }
+       {#if !($logged_in.role==="admin")}
+      <li><a href="/Profile">Profile</a></li>
+      <li><a href="/UserBookHistory">History</a></li>
+            {/if}
+     <li><a href="/">Log Out</a></li>
+     {/if}
     </ul>
   </div>
 </div>

@@ -5,24 +5,31 @@ import {logged_in} from "$lib/store";
   let password = "";
 
 async function save() {
-        const myHeaders = new Headers();
-        myHeaders.append("Origin", "");
-        myHeaders.append("accept", 'application/json');
-        myHeaders.append("Content-Type", 'application/json');
-        // console.log($page.params.id)
-        await fetch(`http://localhost:8000/login`,
-            {
-                headers: myHeaders,
-                method: "POST",
-                body: JSON.stringify({
-                    'username': username,
-                  'password':password
-                })
-            }
+      const form = new FormData();
+      form.append("username", username);
+      form.append("password", password);
+      const options = {
+      method: 'POST',
+      headers: {
+        "Origin": ""
+        },
+      body: form
+      };
 
-        ).then(res => res.json()).then(data => {logged_in.set(data); console.log(data)}).then(() => {
-            goto("/")
-        })
+      await fetch(`http://localhost:8000/token`,options
+
+
+      ).then(async res => {
+                if (res.status === 404) {
+                  alert("User Not Found")
+                } else if (res.status === 200) {
+                  let data = await res.json()
+                  logged_in.set(data);
+                  console.log(data);
+                  goto("/")
+                }
+              }
+        )
     }
 
 </script>

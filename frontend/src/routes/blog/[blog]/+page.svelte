@@ -26,6 +26,8 @@
             start_time: start_time,
             end_time: end_time
         })
+        // save to db here
+
          goto("/Confirm")
     }
 
@@ -39,7 +41,7 @@
             </div>
 
         <div class="mb-6 flex flex-col ">
-             {#if ($logged_in?.username==="admin")}
+             {#if ($logged_in?.role==="admin")}
                   <div class="flex justify-center pb-5">Select Username</div>
                   <div class="flex justify-center"><select bind:value={day} class="select select-bordered  max-w-xs">
                 {#each [...Array(31).keys()] as day}
